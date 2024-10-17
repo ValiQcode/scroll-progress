@@ -1,30 +1,107 @@
 <!DOCTYPE html>
-<html>
-  <body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scroll Animation with Phone</title>
+  <style>
+    /* CSS Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 200vh; /* Just to ensure scrolling */
+    }
+
+    .scroll-wrapper {
+      display: flex;
+      justify-content: space-between;
+      padding: 100px 50px;
+    }
+
+    .phone-wrapper {
+      position: sticky;
+      top: 100px;
+      width: 30%;
+    }
+
+    .phone {
+      position: relative;
+      width: 100%;
+    }
+
+    .phone-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .phone-image.active {
+      opacity: 1;
+    }
+
+    .text-wrapper {
+      width: 60%;
+    }
+
+    .text-section {
+      margin-bottom: 200px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Scroll Wrapper -->
   <div class="scroll-wrapper">
-  <div class="phone-wrapper">
-    <div class="phone">
-      <img src="image1.jpg" class="phone-image active" alt="Image 1" />
-      <img src="image2.jpg" class="phone-image" alt="Image 2" />
-      <img src="image3.jpg" class="phone-image" alt="Image 3" />
-      <!-- Add more images as needed -->
+    <!-- Phone Section -->
+    <div class="phone-wrapper">
+      <div class="phone">
+        <img src="image1.jpg" class="phone-image active" alt="Image 1" />
+        <img src="image2.jpg" class="phone-image" alt="Image 2" />
+        <img src="image3.jpg" class="phone-image" alt="Image 3" />
+        <!-- Add more images if necessary -->
+      </div>
+    </div>
+
+    <!-- Text Section -->
+    <div class="text-wrapper">
+      <div class="text-section" data-image="1">
+        <h2>Heading 1</h2>
+        <p>Text for the first image</p>
+      </div>
+      <div class="text-section" data-image="2">
+        <h2>Heading 2</h2>
+        <p>Text for the second image</p>
+      </div>
+      <div class="text-section" data-image="3">
+        <h2>Heading 3</h2>
+        <p>Text for the third image</p>
+      </div>
+      <!-- Add more text sections if necessary -->
     </div>
   </div>
-  <div class="text-wrapper">
-    <div class="text-section" data-image="1">
-      <h2>Heading 1</h2>
-      <p>Text for the first image</p>
-    </div>
-    <div class="text-section" data-image="2">
-      <h2>Heading 2</h2>
-      <p>Text for the second image</p>
-    </div>
-    <div class="text-section" data-image="3">
-      <h2>Heading 3</h2>
-      <p>Text for the third image</p>
-    </div>
-    <!-- Add more text sections as needed -->
-  </div>
-  </div>
-  </body>  
+
+  <!-- JavaScript -->
+  <script>
+    const sections = document.querySelectorAll('.text-section');
+    const images = document.querySelectorAll('.phone-image');
+
+    window.addEventListener('scroll', () => {
+      let index = 0;
+
+      sections.forEach((section, i) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          index = i;
+        }
+      });
+
+      images.forEach((img) => img.classList.remove('active'));
+      const activeImage = document.querySelector(`.phone-image:nth-child(${index + 1})`);
+      activeImage.classList.add('active');
+    });
+  </script>
+</body>
 </html>
