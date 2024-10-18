@@ -30,6 +30,8 @@
         }
         .text-content {
             width: 45%;
+            position: relative;
+            padding-bottom: 30px; /* Space for progress bar */
         }
         .phone-container {
             width: 45%;
@@ -53,9 +55,9 @@
         }
         .progress-container {
             position: absolute;
-            bottom: 20px;
-            left: 2rem;
-            width: calc(100% - 4rem);
+            bottom: 0;
+            left: 0;
+            width: 100%;
             height: 4px;
             background-color: #ddd;
         }
@@ -78,14 +80,14 @@
         <div class="text-content">
             <h2 id="screen-title">Screen 1 Title</h2>
             <p id="screen-description">Description for Screen 1</p>
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
         </div>
         <div class="phone-container">
             <img src="phone1.png" alt="Phone 1" class="phone-screen active" data-screen="1">
             <img src="phone2.png" alt="Phone 2" class="phone-screen" data-screen="2">
             <img src="phone3.png" alt="Phone 3" class="phone-screen" data-screen="3">
-        </div>
-        <div class="progress-container">
-            <div class="progress-bar"></div>
         </div>
     </div>
 
