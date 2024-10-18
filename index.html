@@ -6,29 +6,27 @@
     <title>Scrolling Webpage with GSAP</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/TextPlugin.min.js"></script>
     <style>
         body, html {
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            scroll-snap-type: y mandatory;
-            overflow-y: scroll;
+            overflow-x: hidden;
         }
-        section {
+        .section {
             min-height: 100vh;
             padding: 2rem;
             box-sizing: border-box;
-            scroll-snap-align: start;
-            scroll-snap-stop: always;
         }
         #section1, #section3 {
             background-color: #f0f0f0;
         }
         #section2 {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
         .text-content {
             width: 45%;
@@ -53,14 +51,14 @@
     </style>
 </head>
 <body>
-    <section id="section1">
+    <div class="section" id="section1">
         <h2>Section 1</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc.</p>
-        <p>Praesent euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc.</p>
-        <p>Donec euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc.</p>
-    </section>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc.</p>
+        <p>Praesent euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc.</p>
+        <p>Donec euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc.</p>
+    </div>
 
-    <section id="section2">
+    <div class="section" id="section2">
         <div class="text-content">
             <h2 id="screen-title">Screen 1 Title</h2>
             <p id="screen-description">Description for Screen 1</p>
@@ -70,17 +68,17 @@
             <img src="phone2.png" alt="Phone 2" class="phone-screen" data-screen="2">
             <img src="phone3.png" alt="Phone 3" class="phone-screen" data-screen="3">
         </div>
-    </section>
+    </div>
 
-    <section id="section3">
+    <div class="section" id="section3">
         <h2>Section 3</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc.</p>
-        <p>Praesent euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc.</p>
-        <p>Donec euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc.</p>
-    </section>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc.</p>
+        <p>Praesent euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc.</p>
+        <p>Donec euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc.</p>
+    </div>
 
     <script>
-        gsap.registerPlugin(ScrollTrigger);
+        gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
         const screenContent = [
             { title: "Screen 1 Title", description: "Description for Screen 1" },
@@ -104,14 +102,20 @@
             });
         }
 
-        gsap.to('#section2', {
+        // Pin section2 and create animations
+        gsap.timeline({
             scrollTrigger: {
-                trigger: '#section2',
-                start: 'top top',
-                end: 'bottom bottom',
+                trigger: "#section2",
                 pin: true,
-                pinSpacing: true,
-                scrub: 1, // Increased scrub value for smoother transitions
+                start: "top top",
+                end: "+=300%",
+                scrub: 1,
+                snap: {
+                    snapTo: 1 / 2,
+                    duration: { min: 0.2, max: 0.3 },
+                    delay: 0.2,
+                    ease: "power1.inOut"
+                },
                 onUpdate: (self) => {
                     const progress = self.progress;
                     const index = Math.floor(progress * 3);
@@ -121,18 +125,18 @@
             }
         });
 
-        // Add scroll snapping
-        const sections = document.querySelectorAll('section');
-        sections.forEach(section => {
+        // Create snap points for each section
+        gsap.utils.toArray(".section").forEach((section, i) => {
             ScrollTrigger.create({
                 trigger: section,
-                start: 'top top',
-                end: 'bottom bottom',
-                onEnter: () => {
-                    gsap.to(window, {duration: 0.5, scrollTo: section.offsetTop});
-                },
-                onEnterBack: () => {
-                    gsap.to(window, {duration: 0.5, scrollTo: section.offsetTop});
+                start: "top top",
+                endTrigger: section.nextElementSibling || "html",
+                end: "top top",
+                snap: {
+                    snapTo: 1,
+                    duration: { min: 0.2, max: 0.3 },
+                    delay: 0.2,
+                    ease: "power1.inOut"
                 }
             });
         });
