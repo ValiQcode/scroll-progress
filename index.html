@@ -37,7 +37,6 @@
             position: fixed;
             right: 2rem;
             bottom: -300px;
-            transition: bottom 0.5s ease;
         }
         .phone-screen {
             position: absolute;
@@ -106,19 +105,16 @@
         }
 
         // Animate phone container from section 1 to section 2 and back
-        gsap.timeline({
+        gsap.to(".phone-container", {
             scrollTrigger: {
                 trigger: "#section1",
                 start: "top top",
                 end: "bottom top",
                 scrub: true,
-                toggleActions: "play none none reverse"
-            }
-        })
-        .fromTo(".phone-container", 
-            { bottom: -300 }, 
-            { bottom: 0, ease: "none" }
-        );
+            },
+            y: 300,
+            ease: "none"
+        });
 
         // Pin section2 and create animations
         const section2Timeline = gsap.timeline({
