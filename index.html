@@ -18,7 +18,6 @@
             height: 100vh;
             padding: 2rem;
             box-sizing: border-box;
-            position: relative;
         }
         #section1, #section3 {
             background-color: #f0f0f0;
@@ -49,18 +48,6 @@
         .phone-screen.active {
             opacity: 1;
         }
-        #main-phone {
-            position: fixed;
-            bottom: -50vh;
-            right: 2rem;
-            width: 300px;
-            height: 600px;
-            z-index: 10;
-        }
-        #main-phone img {
-            width: 100%;
-            height: auto;
-        }
     </style>
 </head>
 <body>
@@ -71,16 +58,13 @@
         <p>Donec euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc. Sed euismod, nunc id aliquam tincidunt, nisi nunc tincidunt nunc, nec tincidunt nunc nunc id nunc.</p>
     </div>
 
-    <div id="main-phone">
-        <img src="phone1.png" alt="Phone 1">
-    </div>
-
     <div class="section" id="section2">
         <div class="text-content">
             <h2 id="screen-title">Screen 1 Title</h2>
             <p id="screen-description">Description for Screen 1</p>
         </div>
         <div class="phone-container">
+            <img src="phone1.png" alt="Phone 1" class="phone-screen active" data-screen="1">
             <img src="phone2.png" alt="Phone 2" class="phone-screen" data-screen="2">
             <img src="phone3.png" alt="Phone 3" class="phone-screen" data-screen="3">
         </div>
@@ -108,26 +92,15 @@
         }
 
         function updatePhoneScreen(index) {
-            if (index === 0) {
-                gsap.to("#main-phone img", { duration: 0.5, opacity: 1 });
-                gsap.to(".phone-screen", { duration: 0.5, opacity: 0 });
-            } else {
-                gsap.to("#main-phone img", { duration: 0.5, opacity: 0 });
-                gsap.to(`.phone-screen[data-screen="${index + 1}"]`, { duration: 0.5, opacity: 1 });
-                gsap.to(`.phone-screen:not([data-screen="${index + 1}"])`, { duration: 0.5, opacity: 0 });
-            }
+            const screens = document.querySelectorAll('.phone-screen');
+            screens.forEach((screen, i) => {
+                if (i === index) {
+                    gsap.to(screen, { duration: 0.5, opacity: 1 });
+                } else {
+                    gsap.to(screen, { duration: 0.5, opacity: 0 });
+                }
+            });
         }
-
-        // Animate main phone
-        gsap.timeline({
-            scrollTrigger: {
-                trigger: "#section1",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            }
-        })
-        .to("#main-phone", { y: "50vh", ease: "none" });
 
         // Pin section2 and create animations
         const section2Timeline = gsap.timeline({
