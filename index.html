@@ -11,11 +11,15 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
         }
         section {
             min-height: 100vh;
             padding: 2rem;
             box-sizing: border-box;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
         }
         #section1, #section3 {
             background-color: #f0f0f0;
@@ -62,9 +66,9 @@
             <p id="screen-description">Description for Screen 1</p>
         </div>
         <div class="phone-container">
-            <img src="/api/placeholder/300/600" alt="Phone 1" class="phone-screen active" data-screen="1">
-            <img src="/api/placeholder/300/600" alt="Phone 2" class="phone-screen" data-screen="2">
-            <img src="/api/placeholder/300/600" alt="Phone 3" class="phone-screen" data-screen="3">
+            <img src="phone1.png" alt="Phone 1" class="phone-screen active" data-screen="1">
+            <img src="phone2.png" alt="Phone 2" class="phone-screen" data-screen="2">
+            <img src="phone3.png" alt="Phone 3" class="phone-screen" data-screen="3">
         </div>
     </section>
 
@@ -85,17 +89,17 @@
         ];
 
         function updateContent(index) {
-            document.getElementById('screen-title').textContent = screenContent[index].title;
-            document.getElementById('screen-description').textContent = screenContent[index].description;
+            gsap.to('#screen-title', { duration: 0.5, text: screenContent[index].title });
+            gsap.to('#screen-description', { duration: 0.5, text: screenContent[index].description });
         }
 
         function updatePhoneScreen(index) {
             const screens = document.querySelectorAll('.phone-screen');
             screens.forEach((screen, i) => {
                 if (i === index) {
-                    screen.classList.add('active');
+                    gsap.to(screen, { duration: 0.5, opacity: 1 });
                 } else {
-                    screen.classList.remove('active');
+                    gsap.to(screen, { duration: 0.5, opacity: 0 });
                 }
             });
         }
@@ -107,7 +111,7 @@
                 end: 'bottom bottom',
                 pin: true,
                 pinSpacing: true,
-                scrub: true,
+                scrub: 1, // Increased scrub value for smoother transitions
                 onUpdate: (self) => {
                     const progress = self.progress;
                     const index = Math.floor(progress * 3);
@@ -115,6 +119,22 @@
                     updatePhoneScreen(Math.min(index, 2));
                 }
             }
+        });
+
+        // Add scroll snapping
+        const sections = document.querySelectorAll('section');
+        sections.forEach(section => {
+            ScrollTrigger.create({
+                trigger: section,
+                start: 'top top',
+                end: 'bottom bottom',
+                onEnter: () => {
+                    gsap.to(window, {duration: 0.5, scrollTo: section.offsetTop});
+                },
+                onEnterBack: () => {
+                    gsap.to(window, {duration: 0.5, scrollTo: section.offsetTop});
+                }
+            });
         });
     </script>
 </body>
