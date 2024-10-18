@@ -3,14 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scroll-triggered Phone Screens with Snapping</title>
+  <title>Scroll-triggered Phone Screens with Pinning</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      height: 300vh; /* Ensure enough height for snapping */
-      overflow: hidden; /* Lenis will handle the smooth scrolling */
     }
 
     section {
@@ -61,6 +59,7 @@
       width: 50%;
       padding-right: 50px;
       opacity: 0;
+      position: relative;
     }
 
     .text-wrapper.active {
@@ -74,16 +73,6 @@
 
     p {
       font-size: 18px;
-    }
-
-    /* Snap each section to cover full screen */
-    html, body {
-      scroll-snap-type: y mandatory;
-      overflow-y: scroll;
-    }
-
-    section {
-      scroll-snap-align: start;
     }
   </style>
   <!-- Include GSAP and ScrollTrigger CDN -->
@@ -102,20 +91,10 @@
   </section>
 
   <!-- Section 2 (Scroll-triggered Phone Section) -->
-  <section class="scroll-section">
-    <div class="text-wrapper" id="text-wrapper-1">
-      <h2>Screen 1 Title</h2>
-      <p>This is the text for the first screen. It explains the features shown on phone1.png.</p>
-    </div>
-
-    <div class="text-wrapper" id="text-wrapper-2">
-      <h2>Screen 2 Title</h2>
-      <p>This is the text for the second screen. It explains the features shown on phone2.png.</p>
-    </div>
-
-    <div class="text-wrapper" id="text-wrapper-3">
-      <h2>Screen 3 Title</h2>
-      <p>This is the text for the third screen. It explains the features shown on phone3.png.</p>
+  <section class="scroll-section" id="scroll-section">
+    <div class="text-wrapper" id="text-wrapper">
+      <h2 id="title">Screen 1 Title</h2>
+      <p id="description">This is the text for the first screen. It explains the features shown on phone1.png.</p>
     </div>
 
     <div class="phone-wrapper">
@@ -141,34 +120,60 @@
     // Initialize GSAP and ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
 
-    // Select text sections and phone images
-    const textWrappers = [document.getElementById('text-wrapper-1'), document.getElementById('text-wrapper-2'), document.getElementById('text-wrapper-3')];
-    const phoneImages = [document.getElementById('phone-image-1'), document.getElementById('phone-image-2'), document.getElementById('phone-image-3')];
+    // Data for screens (title, description, and phone images)
+    const screens = [
+      {
+        title: "Screen 1 Title",
+        description: "This is the text for the first screen. It explains the features shown on phone1.png.",
+        imageId: "#phone-image-1"
+      },
+      {
+        title: "Screen 2 Title",
+        description: "This is the text for the second screen. It explains the features shown on phone2.png.",
+        imageId: "#phone-image-2"
+      },
+      {
+        title: "Screen 3 Title",
+        description: "This is the text for the third screen. It explains the features shown on phone3.png.",
+        imageId: "#phone-image-3"
+      }
+    ];
 
-    // Hide all text sections and images initially
-    textWrappers.forEach(wrapper => wrapper.style.opacity = '0');
-    phoneImages.forEach(img => img.style.opacity = '0');
+    // Setup ScrollTrigger for pinning and swapping content
+    let currentScreenIndex = 0;
 
-    // Create ScrollTrigger animations for each screen and its corresponding text
-    textWrappers.forEach((wrapper, index) => {
-      ScrollTrigger.create({
-        trigger: wrapper,
-        start: "top center",
-        end: "bottom center",
-        onEnter: () => {
-          gsap.to(textWrappers, { opacity: 0, duration: 0.5 });
-          gsap.to(phoneImages, { opacity: 0, duration: 0.5 });
-          gsap.to(textWrappers[index], { opacity: 1, duration: 0.5 });
-          gsap.to(phoneImages[index], { opacity: 1, duration: 0.5 });
-        },
-        onEnterBack: () => {
-          gsap.to(textWrappers, { opacity: 0, duration: 0.5 });
-          gsap.to(phoneImages, { opacity: 0, duration: 0.5 });
-          gsap.to(textWrappers[index], { opacity: 1, duration: 0.5 });
-          gsap.to(phoneImages[index], { opacity: 1, duration: 0.5 });
+    // Pin the scroll section and change content as you scroll
+    ScrollTrigger.create({
+      trigger: "#scroll-section",
+      start: "top top",
+      end: "+=300%",
+      pin: true,
+      scrub: 1,
+      onUpdate: self => {
+        const progress = self.progress;
+        const index = Math.floor(progress * screens.length); // Determine which screen to show
+
+        if (index !== currentScreenIndex) {
+          updateScreen(index);
+          currentScreenIndex = index;
         }
-      });
+      }
     });
+
+    // Update screen content (phone image and text)
+    function updateScreen(index) {
+      const screen = screens[index];
+      
+      // Update text
+      document.getElementById('title').textContent = screen.title;
+      document.getElementById('description').textContent = screen.description;
+
+      // Hide all images
+      screens.forEach(s => gsap.to(s.imageId, { opacity: 0, duration: 0.5 }));
+
+      // Show the current image
+      gsap.to(screen.imageId, { opacity: 1, duration: 0.5 });
+    }
   </script>
 
 </body>
