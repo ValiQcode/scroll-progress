@@ -3,14 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scroll Animation with GSAP, ScrollTrigger, Lenis, and Progress Indicator</title>
+  <title>Scroll-triggered Phone Screens</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      height: 300vh; /* Increased for more scroll space */
-      overflow: hidden; /* Needed for Lenis smooth scrolling */
     }
 
     .content-section {
@@ -18,41 +16,24 @@
       text-align: center;
     }
 
-    .scroll-wrapper {
+    .scroll-section {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 100%;
-      padding: 50px;
+      padding: 100px;
+      height: 100vh;
       position: relative;
-    }
-
-    .progress-bar-container {
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80%;
-      height: 5px;
-      background-color: #e0e0e0;
-    }
-
-    .progress-bar {
-      height: 100%;
-      width: 0%;
-      background-color: #007bff;
+      overflow: hidden;
     }
 
     .phone-wrapper {
-      position: sticky;
-      top: 50%;
-      width: 25%;
-      transform: translateY(-50%);
+      width: 40%;
+      position: relative;
     }
 
     .phone {
-      position: relative;
       width: 100%;
+      position: relative;
     }
 
     .phone-image {
@@ -68,99 +49,75 @@
     }
 
     .text-wrapper {
-      width: 60%;
-      margin-right: 5%;
-    }
-
-    .text-section {
-      margin-bottom: 200px;
+      width: 50%;
+      padding-right: 50px;
     }
 
     h2 {
-      font-size: 24px;
-      margin-bottom: 10px;
+      font-size: 32px;
+      margin-bottom: 20px;
     }
 
     p {
-      font-size: 16px;
+      font-size: 18px;
     }
   </style>
   <!-- Include GSAP and ScrollTrigger CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <!-- Include Lenis for smooth scrolling -->
-  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis"></script>
 </head>
 <body>
-  <!-- Content Section Above -->
+
+  <!-- Section 1 (Top Section) -->
   <div class="content-section">
-    <p>Paragraph 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    <p>Paragraph 2: Suspendisse eget metus ac sapien consequat convallis.</p>
-    <p>Paragraph 3: Aliquam erat volutpat. Nulla facilisi.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    <p>Vestibulum vehicula leo eget libero posuere, non facilisis lacus volutpat.</p>
+    <p>Proin eget nisl a risus consectetur tincidunt non vitae risus.</p>
   </div>
 
-  <!-- Scroll Wrapper with Progress Bar -->
-  <div class="scroll-wrapper">
-    <!-- Progress Bar -->
-    <div class="progress-bar-container">
-      <div class="progress-bar" id="progress-bar"></div>
-    </div>
-
-    <!-- Text Section -->
+  <!-- Section 2 (Scroll-triggered Phone Section) -->
+  <div class="scroll-section">
     <div class="text-wrapper">
-      <div class="text-section" data-image="0">
-        <h2>Heading 1</h2>
-        <p>Text for the first image</p>
+      <div class="text-section" data-screen="1">
+        <h2>Screen 1 Title</h2>
+        <p>This is the text for the first screen.</p>
       </div>
-      <div class="text-section" data-image="1">
-        <h2>Heading 2</h2>
-        <p>Text for the second image</p>
+      <div class="text-section" data-screen="2">
+        <h2>Screen 2 Title</h2>
+        <p>This is the text for the second screen.</p>
       </div>
-      <div class="text-section" data-image="2">
-        <h2>Heading 3</h2>
-        <p>Text for the third image</p>
+      <div class="text-section" data-screen="3">
+        <h2>Screen 3 Title</h2>
+        <p>This is the text for the third screen.</p>
       </div>
     </div>
 
-    <!-- Phone Section -->
     <div class="phone-wrapper">
       <div class="phone">
-        <img src="image1.jpg" class="phone-image" alt="Image 1" />
-        <img src="image2.jpg" class="phone-image" alt="Image 2" />
-        <img src="image3.jpg" class="phone-image" alt="Image 3" />
+        <img src="phone1.png" class="phone-image" alt="Phone Screen 1" />
+        <img src="phone2.png" class="phone-image" alt="Phone Screen 2" />
+        <img src="phone3.png" class="phone-image" alt="Phone Screen 3" />
       </div>
     </div>
   </div>
 
-  <!-- Content Section Below -->
+  <!-- Section 3 (Bottom Section) -->
   <div class="content-section">
-    <p>Paragraph 4: Sed ut perspiciatis unde omnis iste natus error sit voluptatem.</p>
-    <p>Paragraph 5: At vero eos et accusamus et iusto odio dignissimos ducimus.</p>
-    <p>Paragraph 6: Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>
+    <p>Fusce vitae ipsum ac urna egestas tristique sit amet ac nunc.</p>
+    <p>Integer sit amet lacus vitae massa pulvinar convallis.</p>
+    <p>Nam aliquet neque vel est vehicula fermentum.</p>
   </div>
 
-  <!-- JavaScript for GSAP, ScrollTrigger, Lenis, and Progress Bar -->
+  <!-- JavaScript for GSAP and ScrollTrigger -->
   <script>
-    // Initialize Lenis smooth scrolling
-    const lenis = new Lenis({
-      smooth: true,
-    });
-
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-
-    // GSAP ScrollTrigger setup
+    // Initialize GSAP and ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
 
-    // Select all images and text sections
-    const phoneImages = document.querySelectorAll('.phone-image');
+    // Select text sections and phone images
     const textSections = document.querySelectorAll('.text-section');
-    const progressBar = document.getElementById('progress-bar');
+    const phoneImages = document.querySelectorAll('.phone-image');
 
-    // Loop through each text section and trigger image change
+    // Loop through text sections and set ScrollTrigger for each
     textSections.forEach((section, index) => {
       ScrollTrigger.create({
         trigger: section,
@@ -176,17 +133,7 @@
         }
       });
     });
-
-    // ScrollTrigger to update the progress bar
-    ScrollTrigger.create({
-      trigger: '.scroll-wrapper',
-      start: 'top top',
-      end: 'bottom bottom',
-      onUpdate: self => {
-        const progress = self.progress * 100; // Get progress in percentage
-        progressBar.style.width = progress + '%'; // Set width of progress bar
-      }
-    });
   </script>
+
 </body>
 </html>
