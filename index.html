@@ -110,12 +110,6 @@
                 start: "top top",
                 end: "+=300%",
                 scrub: 1,
-                snap: {
-                    snapTo: 1 / 2,
-                    duration: { min: 0.2, max: 0.3 },
-                    delay: 0.2,
-                    ease: "power1.inOut"
-                },
                 onUpdate: (self) => {
                     const progress = self.progress;
                     const index = Math.floor(progress * 3);
@@ -125,20 +119,18 @@
             }
         });
 
-        // Create snap points for each section
-        gsap.utils.toArray(".section").forEach((section, i) => {
-            ScrollTrigger.create({
-                trigger: section,
-                start: "top top",
-                endTrigger: section.nextElementSibling || "html",
-                end: "top top",
-                snap: {
-                    snapTo: 1,
-                    duration: { min: 0.2, max: 0.3 },
-                    delay: 0.2,
-                    ease: "power1.inOut"
-                }
-            });
+        // Create snap points for main sections
+        ScrollTrigger.create({
+            snap: {
+                snapTo: (progress, self) => {
+                    const sectionStarts = gsap.utils.toArray(".section").map(section => ScrollTrigger.create({trigger: section}).start);
+                    const snapPoints = sectionStarts.map(start => self.scroll(start) / self.end);
+                    return snapPoints;
+                },
+                duration: {min: 0.2, max: 0.3},
+                delay: 0.2,
+                ease: "power1.inOut"
+            }
         });
     </script>
 </body>
