@@ -3,26 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scroll Animation with GSAP & Lenis</title>
+  <title>Scroll Animation with GSAP, ScrollTrigger, Lenis, and Progress Indicator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      height: 200vh;
+      height: 300vh; /* Increased for more scroll space */
       overflow: hidden; /* Needed for Lenis smooth scrolling */
+    }
+
+    .content-section {
+      padding: 50px;
+      text-align: center;
     }
 
     .scroll-wrapper {
       display: flex;
       justify-content: space-between;
-      padding: 100px 50px;
+      align-items: center;
+      width: 100%;
+      padding: 50px;
+      position: relative;
+    }
+
+    .progress-bar-container {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 5px;
+      background-color: #e0e0e0;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #007bff;
     }
 
     .phone-wrapper {
       position: sticky;
-      top: 100px;
-      width: 30%;
+      top: 50%;
+      width: 25%;
+      transform: translateY(-50%);
     }
 
     .phone {
@@ -44,10 +69,20 @@
 
     .text-wrapper {
       width: 60%;
+      margin-right: 5%;
     }
 
     .text-section {
       margin-bottom: 200px;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
     }
   </style>
   <!-- Include GSAP and ScrollTrigger CDN -->
@@ -57,16 +92,18 @@
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis"></script>
 </head>
 <body>
-  <!-- Scroll Wrapper -->
+  <!-- Content Section Above -->
+  <div class="content-section">
+    <p>Paragraph 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    <p>Paragraph 2: Suspendisse eget metus ac sapien consequat convallis.</p>
+    <p>Paragraph 3: Aliquam erat volutpat. Nulla facilisi.</p>
+  </div>
+
+  <!-- Scroll Wrapper with Progress Bar -->
   <div class="scroll-wrapper">
-    <!-- Phone Section -->
-    <div class="phone-wrapper">
-      <div class="phone">
-        <img src="image1.jpg" class="phone-image" alt="Image 1" />
-        <img src="image2.jpg" class="phone-image" alt="Image 2" />
-        <img src="image3.jpg" class="phone-image" alt="Image 3" />
-        <!-- Add more images if necessary -->
-      </div>
+    <!-- Progress Bar -->
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progress-bar"></div>
     </div>
 
     <!-- Text Section -->
@@ -83,11 +120,26 @@
         <h2>Heading 3</h2>
         <p>Text for the third image</p>
       </div>
-      <!-- Add more text sections if necessary -->
+    </div>
+
+    <!-- Phone Section -->
+    <div class="phone-wrapper">
+      <div class="phone">
+        <img src="image1.jpg" class="phone-image" alt="Image 1" />
+        <img src="image2.jpg" class="phone-image" alt="Image 2" />
+        <img src="image3.jpg" class="phone-image" alt="Image 3" />
+      </div>
     </div>
   </div>
 
-  <!-- JavaScript for GSAP, ScrollTrigger, and Lenis -->
+  <!-- Content Section Below -->
+  <div class="content-section">
+    <p>Paragraph 4: Sed ut perspiciatis unde omnis iste natus error sit voluptatem.</p>
+    <p>Paragraph 5: At vero eos et accusamus et iusto odio dignissimos ducimus.</p>
+    <p>Paragraph 6: Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>
+  </div>
+
+  <!-- JavaScript for GSAP, ScrollTrigger, Lenis, and Progress Bar -->
   <script>
     // Initialize Lenis smooth scrolling
     const lenis = new Lenis({
@@ -106,6 +158,7 @@
     // Select all images and text sections
     const phoneImages = document.querySelectorAll('.phone-image');
     const textSections = document.querySelectorAll('.text-section');
+    const progressBar = document.getElementById('progress-bar');
 
     // Loop through each text section and trigger image change
     textSections.forEach((section, index) => {
@@ -122,6 +175,17 @@
           gsap.to(phoneImages[index], { opacity: 1, duration: 0.5 });
         }
       });
+    });
+
+    // ScrollTrigger to update the progress bar
+    ScrollTrigger.create({
+      trigger: '.scroll-wrapper',
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: self => {
+        const progress = self.progress * 100; // Get progress in percentage
+        progressBar.style.width = progress + '%'; // Set width of progress bar
+      }
     });
   </script>
 </body>
