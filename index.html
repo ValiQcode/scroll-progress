@@ -37,6 +37,8 @@
     .phone-wrapper {
       width: 40%;
       position: relative;
+      display: flex;
+      align-items: center; /* Center vertically */
     }
 
     .phone {
@@ -45,12 +47,9 @@
     }
 
     .phone-image {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      max-height: 80vh; /* Limit the height so the phone fits in the viewport */
+      max-height: 80vh; /* Fit image within the viewport */
       opacity: 0;
+      transition: opacity 0.5s ease;
     }
 
     .phone-image.active {
@@ -62,6 +61,10 @@
       padding-right: 50px;
       opacity: 0;
       position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center; /* Center vertically */
+      transition: opacity 0.5s ease;
     }
 
     .text-wrapper.active {
@@ -77,9 +80,13 @@
       font-size: 18px;
     }
 
-    /* Make sure the container doesn't overflow horizontally */
+    /* Ensure snapping of sections */
     html, body {
-      overflow-x: hidden;
+      scroll-snap-type: y mandatory;
+    }
+
+    section {
+      scroll-snap-align: start;
     }
   </style>
   <!-- Include GSAP and ScrollTrigger CDN -->
