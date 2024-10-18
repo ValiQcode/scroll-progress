@@ -15,7 +15,7 @@
             overflow-x: hidden;
         }
         .section {
-            min-height: 100vh;
+            height: 100vh;
             padding: 2rem;
             box-sizing: border-box;
         }
@@ -103,12 +103,12 @@
         }
 
         // Pin section2 and create animations
-        gsap.timeline({
+        const section2Timeline = gsap.timeline({
             scrollTrigger: {
                 trigger: "#section2",
                 pin: true,
                 start: "top top",
-                end: "+=300%",
+                end: "+=200%",
                 scrub: 1,
                 onUpdate: (self) => {
                     const progress = self.progress;
@@ -120,18 +120,32 @@
         });
 
         // Create snap points for main sections
-        ScrollTrigger.create({
-            snap: {
-                snapTo: (progress, self) => {
-                    const sectionStarts = gsap.utils.toArray(".section").map(section => ScrollTrigger.create({trigger: section}).start);
-                    const snapPoints = sectionStarts.map(start => self.scroll(start) / self.end);
-                    return snapPoints;
+        gsap.utils.toArray(".section").forEach((section, i) => {
+            ScrollTrigger.create({
+                trigger: section,
+                start: "top top",
+                end: "bottom top",
+                onEnter: () => {
+                    gsap.to(window, {
+                        duration: 0.5,
+                        scrollTo: { y: section.offsetTop, autoKill: false },
+                        overwrite: true
+                    });
                 },
-                duration: {min: 0.2, max: 0.3},
-                delay: 0.2,
-                ease: "power1.inOut"
-            }
+                onEnterBack: () => {
+                    gsap.to(window, {
+                        duration: 0.5,
+                        scrollTo: { y: section.offsetTop, autoKill: false },
+                        overwrite: true
+                    });
+                }
+            });
         });
+
+        // Ensure the page starts at the top
+        window.onload = () => {
+            window.scrollTo(0, 0);
+        };
     </script>
 </body>
 </html>
