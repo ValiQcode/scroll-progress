@@ -3,17 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scroll-triggered Phone Screens</title>
+  <title>Scroll-triggered Phone Screens with Snapping</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      height: 300vh; /* Ensure enough height for snapping */
+      overflow: hidden; /* Lenis will handle the smooth scrolling */
+    }
+
+    section {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 50px;
     }
 
     .content-section {
-      padding: 50px;
       text-align: center;
+      width: 60%;
     }
 
     .scroll-section {
@@ -21,9 +31,8 @@
       justify-content: space-between;
       align-items: center;
       padding: 100px;
-      height: 100vh;
       position: relative;
-      overflow: hidden;
+      height: 100vh;
     }
 
     .phone-wrapper {
@@ -51,6 +60,11 @@
     .text-wrapper {
       width: 50%;
       padding-right: 50px;
+      opacity: 0;
+    }
+
+    .text-wrapper.active {
+      opacity: 1;
     }
 
     h2 {
@@ -61,6 +75,16 @@
     p {
       font-size: 18px;
     }
+
+    /* Snap each section to cover full screen */
+    html, body {
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+    }
+
+    section {
+      scroll-snap-align: start;
+    }
   </style>
   <!-- Include GSAP and ScrollTrigger CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -68,45 +92,49 @@
 </head>
 <body>
 
-  <!-- Section 1 (Top Section) -->
-  <div class="content-section">
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    <p>Vestibulum vehicula leo eget libero posuere, non facilisis lacus volutpat.</p>
-    <p>Proin eget nisl a risus consectetur tincidunt non vitae risus.</p>
-  </div>
+  <!-- Section 1 (Top Section with longer paragraphs) -->
+  <section class="content-section">
+    <div>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Proin auctor, erat in luctus hendrerit, erat nulla consectetur eros, vel scelerisque sem ligula sit amet neque. Fusce blandit nulla vel lacus volutpat, in facilisis dolor faucibus. In quis justo eget neque congue pharetra. Maecenas efficitur, justo sit amet scelerisque tincidunt, urna nunc vehicula leo, sed dapibus magna turpis non ligula.</p>
+      <p>Pellentesque nec velit eu orci convallis elementum. Duis vitae suscipit metus, ac vulputate purus. Ut sed ultricies dui. Aliquam erat volutpat. Sed fringilla nulla a malesuada fermentum. Etiam at dapibus nisl, non sodales felis.</p>
+      <p>Aliquam erat volutpat. Integer feugiat auctor dui, ac tincidunt nisi vulputate eu. Etiam in nibh quis leo volutpat malesuada sit amet ac arcu. Proin elementum sapien nisi, ac dictum risus aliquam ut. Nulla facilisi.</p>
+    </div>
+  </section>
 
   <!-- Section 2 (Scroll-triggered Phone Section) -->
-  <div class="scroll-section">
-    <div class="text-wrapper">
-      <div class="text-section" data-screen="1">
-        <h2>Screen 1 Title</h2>
-        <p>This is the text for the first screen.</p>
-      </div>
-      <div class="text-section" data-screen="2">
-        <h2>Screen 2 Title</h2>
-        <p>This is the text for the second screen.</p>
-      </div>
-      <div class="text-section" data-screen="3">
-        <h2>Screen 3 Title</h2>
-        <p>This is the text for the third screen.</p>
-      </div>
+  <section class="scroll-section">
+    <div class="text-wrapper" id="text-wrapper-1">
+      <h2>Screen 1 Title</h2>
+      <p>This is the text for the first screen. It explains the features shown on phone1.png.</p>
+    </div>
+
+    <div class="text-wrapper" id="text-wrapper-2">
+      <h2>Screen 2 Title</h2>
+      <p>This is the text for the second screen. It explains the features shown on phone2.png.</p>
+    </div>
+
+    <div class="text-wrapper" id="text-wrapper-3">
+      <h2>Screen 3 Title</h2>
+      <p>This is the text for the third screen. It explains the features shown on phone3.png.</p>
     </div>
 
     <div class="phone-wrapper">
       <div class="phone">
-        <img src="phone1.png" class="phone-image" alt="Phone Screen 1" />
-        <img src="phone2.png" class="phone-image" alt="Phone Screen 2" />
-        <img src="phone3.png" class="phone-image" alt="Phone Screen 3" />
+        <img src="phone1.png" id="phone-image-1" class="phone-image" alt="Phone Screen 1" />
+        <img src="phone2.png" id="phone-image-2" class="phone-image" alt="Phone Screen 2" />
+        <img src="phone3.png" id="phone-image-3" class="phone-image" alt="Phone Screen 3" />
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- Section 3 (Bottom Section) -->
-  <div class="content-section">
-    <p>Fusce vitae ipsum ac urna egestas tristique sit amet ac nunc.</p>
-    <p>Integer sit amet lacus vitae massa pulvinar convallis.</p>
-    <p>Nam aliquet neque vel est vehicula fermentum.</p>
-  </div>
+  <section class="content-section">
+    <div>
+      <p>Fusce vitae ipsum ac urna egestas tristique sit amet ac nunc. Suspendisse potenti. Donec bibendum nisi eu nisi pharetra, in gravida velit ultrices. Sed sit amet est felis.</p>
+      <p>Integer sit amet lacus vitae massa pulvinar convallis. Etiam vel lectus fermentum, lacinia nulla id, fringilla purus. Ut imperdiet diam a vehicula luctus.</p>
+      <p>Nam aliquet neque vel est vehicula fermentum. Suspendisse auctor metus et interdum venenatis. Aliquam malesuada massa vel quam gravida vehicula. Nulla facilisi.</p>
+    </div>
+  </section>
 
   <!-- JavaScript for GSAP and ScrollTrigger -->
   <script>
@@ -114,21 +142,29 @@
     gsap.registerPlugin(ScrollTrigger);
 
     // Select text sections and phone images
-    const textSections = document.querySelectorAll('.text-section');
-    const phoneImages = document.querySelectorAll('.phone-image');
+    const textWrappers = [document.getElementById('text-wrapper-1'), document.getElementById('text-wrapper-2'), document.getElementById('text-wrapper-3')];
+    const phoneImages = [document.getElementById('phone-image-1'), document.getElementById('phone-image-2'), document.getElementById('phone-image-3')];
 
-    // Loop through text sections and set ScrollTrigger for each
-    textSections.forEach((section, index) => {
+    // Hide all text sections and images initially
+    textWrappers.forEach(wrapper => wrapper.style.opacity = '0');
+    phoneImages.forEach(img => img.style.opacity = '0');
+
+    // Create ScrollTrigger animations for each screen and its corresponding text
+    textWrappers.forEach((wrapper, index) => {
       ScrollTrigger.create({
-        trigger: section,
+        trigger: wrapper,
         start: "top center",
         end: "bottom center",
         onEnter: () => {
+          gsap.to(textWrappers, { opacity: 0, duration: 0.5 });
           gsap.to(phoneImages, { opacity: 0, duration: 0.5 });
+          gsap.to(textWrappers[index], { opacity: 1, duration: 0.5 });
           gsap.to(phoneImages[index], { opacity: 1, duration: 0.5 });
         },
         onEnterBack: () => {
+          gsap.to(textWrappers, { opacity: 0, duration: 0.5 });
           gsap.to(phoneImages, { opacity: 0, duration: 0.5 });
+          gsap.to(textWrappers[index], { opacity: 1, duration: 0.5 });
           gsap.to(phoneImages[index], { opacity: 1, duration: 0.5 });
         }
       });
