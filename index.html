@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scroll Animation with Phone</title>
+  <title>Scroll Animation with GSAP & Lenis</title>
   <style>
-    /* CSS Styles */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      height: 200vh; /* Just to ensure scrolling */
+      height: 200vh;
+      overflow: hidden; /* Needed for Lenis smooth scrolling */
     }
 
     .scroll-wrapper {
@@ -36,7 +36,6 @@
       left: 0;
       width: 100%;
       opacity: 0;
-      transition: opacity 0.5s ease;
     }
 
     .phone-image.active {
@@ -51,6 +50,11 @@
       margin-bottom: 200px;
     }
   </style>
+  <!-- Include GSAP and ScrollTrigger CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <!-- Include Lenis for smooth scrolling -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis"></script>
 </head>
 <body>
   <!-- Scroll Wrapper -->
@@ -58,7 +62,7 @@
     <!-- Phone Section -->
     <div class="phone-wrapper">
       <div class="phone">
-        <img src="image1.jpg" class="phone-image active" alt="Image 1" />
+        <img src="image1.jpg" class="phone-image" alt="Image 1" />
         <img src="image2.jpg" class="phone-image" alt="Image 2" />
         <img src="image3.jpg" class="phone-image" alt="Image 3" />
         <!-- Add more images if necessary -->
@@ -67,15 +71,15 @@
 
     <!-- Text Section -->
     <div class="text-wrapper">
-      <div class="text-section" data-image="1">
+      <div class="text-section" data-image="0">
         <h2>Heading 1</h2>
         <p>Text for the first image</p>
       </div>
-      <div class="text-section" data-image="2">
+      <div class="text-section" data-image="1">
         <h2>Heading 2</h2>
         <p>Text for the second image</p>
       </div>
-      <div class="text-section" data-image="3">
+      <div class="text-section" data-image="2">
         <h2>Heading 3</h2>
         <p>Text for the third image</p>
       </div>
@@ -83,24 +87,41 @@
     </div>
   </div>
 
-  <!-- JavaScript -->
+  <!-- JavaScript for GSAP, ScrollTrigger, and Lenis -->
   <script>
-    const sections = document.querySelectorAll('.text-section');
-    const images = document.querySelectorAll('.phone-image');
+    // Initialize Lenis smooth scrolling
+    const lenis = new Lenis({
+      smooth: true,
+    });
 
-    window.addEventListener('scroll', () => {
-      let index = 0;
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
 
-      sections.forEach((section, i) => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          index = i;
+    // GSAP ScrollTrigger setup
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Select all images and text sections
+    const phoneImages = document.querySelectorAll('.phone-image');
+    const textSections = document.querySelectorAll('.text-section');
+
+    // Loop through each text section and trigger image change
+    textSections.forEach((section, index) => {
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top center",
+        end: "bottom center",
+        onEnter: () => {
+          gsap.to(phoneImages, { opacity: 0, duration: 0.5 });
+          gsap.to(phoneImages[index], { opacity: 1, duration: 0.5 });
+        },
+        onEnterBack: () => {
+          gsap.to(phoneImages, { opacity: 0, duration: 0.5 });
+          gsap.to(phoneImages[index], { opacity: 1, duration: 0.5 });
         }
       });
-
-      images.forEach((img) => img.classList.remove('active'));
-      const activeImage = document.querySelector(`.phone-image:nth-child(${index + 1})`);
-      activeImage.classList.add('active');
     });
   </script>
 </body>
