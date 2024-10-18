@@ -15,7 +15,7 @@
             overflow-x: hidden;
         }
         .section {
-            height: 100vh;
+            min-height: 100vh;
             padding: 2rem;
             box-sizing: border-box;
         }
@@ -34,7 +34,10 @@
         .phone-container {
             width: 45%;
             height: 600px;
-            position: relative;
+            position: fixed;
+            right: 2rem;
+            bottom: -300px; /* Start with only top half visible */
+            transition: bottom 0.5s ease;
         }
         .phone-screen {
             position: absolute;
@@ -102,6 +105,18 @@
             });
         }
 
+        // Animate phone container from section 1 to section 2
+        gsap.to(".phone-container", {
+            scrollTrigger: {
+                trigger: "#section1",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            },
+            bottom: 0,
+            ease: "none"
+        });
+
         // Pin section2 and create animations
         const section2Timeline = gsap.timeline({
             scrollTrigger: {
@@ -115,6 +130,12 @@
                     const index = Math.floor(progress * 3);
                     updateContent(Math.min(index, 2));
                     updatePhoneScreen(Math.min(index, 2));
+                },
+                onEnter: () => {
+                    gsap.to(".phone-container", { position: "absolute", duration: 0.1 });
+                },
+                onLeaveBack: () => {
+                    gsap.to(".phone-container", { position: "fixed", duration: 0.1 });
                 }
             }
         });
